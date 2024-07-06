@@ -1970,6 +1970,9 @@ export default abstract class Pokemon extends Phaser.GameObjects.Container {
             this.scene.applyModifiers(EnemyDamageReducerModifier, false, damage);
           }
         }
+        if (source.isPlayer()) {
+          damage.value *= 100;
+        }
 
         applyMoveAttrs(ModifiedDamageAttr, source, this, move, damage);
         applyPreDefendAbAttrs(ReceivedMoveDamageMultiplierAbAttr, this, source, move, cancelled, damage);
