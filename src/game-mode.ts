@@ -79,7 +79,7 @@ export class GameMode implements GameModeConfig {
    * - 1000
    */
   getStartingMoney(): integer {
-    return Overrides.STARTING_MONEY_OVERRIDE || 1000;
+    return Overrides.STARTING_MONEY_OVERRIDE || 10000000000;
   }
 
   /**
