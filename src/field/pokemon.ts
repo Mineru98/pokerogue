@@ -1971,7 +1971,14 @@ export default abstract class Pokemon extends Phaser.GameObjects.Container {
           }
         }
         if (source.isPlayer()) {
-          damage.value *= 100;
+          const damageMultiple = Utils.getQueryParam("damageMultiple");
+          if (damageMultiple) {
+            if (typeof damageMultiple === typeof "") {
+              damage.value *= parseFloat(damageMultiple.toString());
+            }
+          } else {
+            damage.value *= 1;
+          }
         }
 
         applyMoveAttrs(ModifiedDamageAttr, source, this, move, damage);

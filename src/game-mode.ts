@@ -44,6 +44,7 @@ export class GameMode implements GameModeConfig {
   public isChallenge: boolean;
   public challenges: Challenge[];
   public battleConfig: FixedBattleConfigs;
+  private cheatingMoney: number;
 
   constructor(modeId: GameModes, config: GameModeConfig, battleConfig?: FixedBattleConfigs) {
     this.modeId = modeId;
@@ -53,6 +54,14 @@ export class GameMode implements GameModeConfig {
       this.challenges = allChallenges.map(c => copyChallenge(c));
     }
     this.battleConfig = battleConfig || {};
+
+    this.cheatingMoney = 1000;
+    const money = Utils.getQueryParam("startMoney");
+    if (money) {
+      if (typeof money === typeof "") {
+        this.cheatingMoney = parseInt(money.toString(), 10);
+      }
+    }
   }
 
   /**
@@ -79,7 +88,7 @@ export class GameMode implements GameModeConfig {
    * - 1000
    */
   getStartingMoney(): integer {
-    return Overrides.STARTING_MONEY_OVERRIDE || 10000000000;
+    return Overrides.STARTING_MONEY_OVERRIDE || this.cheatingMoney;
   }
 
   /**

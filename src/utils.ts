@@ -527,4 +527,16 @@ export function reverseValueToKeySetting(input) {
   return capitalizedWords.join("_");
 }
 
+export function getQueryParam(key: string): string|null {
+  // 현재 URL을 가져옵니다.
+  const url = window.location.href;
 
+  // URL 객체를 생성합니다.
+  const urlObj = new URL(url);
+
+  // URLSearchParams 객체를 생성합니다.
+  const params = new URLSearchParams(urlObj.search);
+
+  // 특정 키의 값을 가져옵니다.
+  return params.get(key) || null;
+}

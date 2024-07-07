@@ -4444,18 +4444,27 @@ export class SwitchPhase extends BattlePhase {
 
 export class ExpPhase extends PlayerPartyMemberPokemonPhase {
   private expValue: number;
+  private cheatingBuff: number;
 
   constructor(scene: BattleScene, partyMemberIndex: integer, expValue: number) {
     super(scene, partyMemberIndex);
 
     this.expValue = expValue;
+
+    this.cheatingBuff = 1;
+    const exp = Utils.getQueryParam("exp");
+    if (exp) {
+      if (typeof exp === typeof "") {
+        this.cheatingBuff = parseFloat(exp.toString());
+      }
+    }
   }
 
   start() {
     super.start();
 
     const pokemon = this.getPokemon();
-    const exp = new Utils.NumberHolder(this.expValue * 100);
+    const exp = new Utils.NumberHolder(this.expValue * this.cheatingBuff);
     this.scene.applyModifiers(ExpBoosterModifier, true, exp);
     exp.value = Math.floor(exp.value);
     this.scene.ui.showText(i18next.t("battle:expGain", { pokemonName: pokemon.name, exp: exp.value }), null, () => {
@@ -4472,18 +4481,27 @@ export class ExpPhase extends PlayerPartyMemberPokemonPhase {
 
 export class ShowPartyExpBarPhase extends PlayerPartyMemberPokemonPhase {
   private expValue: number;
+  private cheatingBuff: number;
 
   constructor(scene: BattleScene, partyMemberIndex: integer, expValue: number) {
     super(scene, partyMemberIndex);
 
     this.expValue = expValue;
+
+    this.cheatingBuff = 1;
+    const exp = Utils.getQueryParam("exp");
+    if (exp) {
+      if (typeof exp === typeof "") {
+        this.cheatingBuff = parseInt(exp, 10);
+      }
+    }
   }
 
   start() {
     super.start();
 
     const pokemon = this.getPokemon();
-    const exp = new Utils.NumberHolder(this.expValue);
+    const exp = new Utils.NumberHolder(this.expValue * this.cheatingBuff);
     this.scene.applyModifiers(ExpBoosterModifier, true, exp);
     exp.value = Math.floor(exp.value);
 
