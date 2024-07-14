@@ -40,8 +40,206 @@
 	<link rel="stylesheet" type="text/css" href="./index.css" />
 	<link rel="manifest" href="./manifest.webmanifest">
   <script>
+	async function genText(prompt) {
+		const generated_text = `### Bug Type Matchups
+
+- Strengths:
+  - Poison Attacks
+  - Inflicting Status Conditions
+
+- Weaknesses:
+  - Weakness to Fire, Flying, Poison, Steel, Fairy, Rock Types
+  - Low Attack Power
+
+### 2.2. Fire Type Matchups
+
+- Strengths:
+  - Powerful Fire Attacks
+  - Inflicting Status Conditions
+
+- Weaknesses:
+  - Weakness to Water, Ground, Rock Types
+  - Low Defense Power
+
+### Water Type Matchups
+
+- Strengths:
+  - Versatile Attacks
+  - Resistance to Fire and Ground Types
+
+- Weaknesses:
+  - Weakness to Electric, Grass Types
+  - Low Speed
+
+### Electric Type Matchups
+
+- Strengths:
+  - Powerful Electric Attacks
+  - Paralysis Inducement
+
+- Weaknesses:
+  - Weakness to Ground Types
+  - Low Defense Power
+
+### 2.5. Grass Type Matchups
+
+- Strengths:
+  - Versatile Attacks
+  - Resistance to Water and Ground Types
+
+- Weaknesses:
+  - Weakness to Fire, Ice, Poison, Flying, Bug Types
+  - Low Speed
+
+### 2.6. Ice Type Matchups
+
+- Strengths:
+  - Powerful Ice Attacks
+  - Inflicting Status Conditions
+
+- Weaknesses:
+  - Weakness to Fire, Fighting, Rock, Steel Types
+  - Low Defense Power
+
+### Fighting Type Matchups
+
+- Strengths:
+  - Powerful Fighting Attacks
+  - Resistance to Bug, Rock, Dark Types
+
+- Weaknesses:
+  - Weakness to Flying, Psychic, Fairy Types
+  - Low Special Defense
+
+### Poison Type Matchups
+
+- Strengths:
+  - Inflicting Status Conditions
+
+
+ - Resistance to Grass, Fairy Types
+
+- Weaknesses:
+  - Weakness to Ground, Psychic Types
+  - Low Defense Power
+
+### Ground Type Matchups
+
+- Strengths:
+  - Effective in Early Game
+  - Variety of Attack Options
+
+- Weaknesses:
+  - Clear Weaknesses
+  - Low Speed
+
+### Flying Type Matchups
+
+- Strengths:
+  - High Mobility
+  - Resistance to Bug, Fighting, Grass Types
+
+- Weaknesses:
+  - Weakness to Electric, Rock, Ice Types
+  - Vulnerability to Status Conditions
+
+### Psychic Type Matchups
+
+- Strengths:
+  - Strong Against Fighting and Poison Types
+  - Inflicting Special Conditions
+
+- Weaknesses:
+  - Weakness to Bug, Ghost, Dark Types
+  - Low Physical Defense
+
+### Bug Type Matchups
+
+- Strengths:
+  - Effective Against Grass, Psychic, Dark Types
+  - Inflicting Status Conditions
+
+- Weaknesses:
+  - Weakness to Fire, Flying, Rock Types
+  - Low Defense and Special Defense
+
+### 2.13. Rock Type Matchups
+
+- Strengths:
+  - High Defense Power
+  - Effective Against Flying, Bug, Fire, Ice Types
+
+- Weaknesses:
+  - Weakness to Water, Grass, Fighting, Ground, Steel Types
+  - Low Speed
+
+### 2.14. Ghost Type Matchups
+
+- Strengths:
+  - Immunity to Normal and Fighting Attacks
+  - Inflicting Special Conditions
+
+- Weaknesses:
+  - Weakness to Ghost, Dark Types
+  - Low Physical Defense
+
+### Dragon Type Matchups
+
+- Strengths:
+  - Powerful Dragon Attacks
+  - Resistance to Fire, Water, Electric, Grass Types
+
+- Weaknesses:
+  - Weakness to Ice, Dragon, Fairy Types
+  - High Evolution Cost
+
+### Dark Type Matchups
+
+- Strengths:
+  - Effective Against Psychic and Ghost Types
+  - Immunity to Psychic Attacks
+
+- Weaknesses:
+  - Weakness to Fighting, Bug, Fairy Types
+  - Low Special Defense
+
+### 2.17. Steel Type Matchups
+
+- Strengths:
+  - High Defense and Resistance
+  - Resistance to Normal, Grass, Ice, Flying, Psychic, Bug, Rock, Dragon, Steel, Fairy Types
+
+- Weaknesses:
+  - Weakness to Fire, Fighting, Ground Types
+  - High Evolution Cost
+
+### 2.18. Fairy Type Matchups
+
+- Strengths:
+  - Effective Against Fighting, Dragon, Dark Types
+  - Resistance to Fighting, Bug, Dark Types
+
+- Weaknesses:
+  - Weakness to Poison, Steel Types
+  - Low Physical Defense:
+---
+## Requirement
+${prompt}
+## Answer
+`;
+		const session = await window.ai.createTextSession();
+		const stream = session.promptStreaming(generated_text);
+		const reactText = new Array();
+		let text = "";
+		for await (const chunk of stream) {
+			text = await chunk;
+		}
+		session.destroy();
+		return text;
+	}
+
     if ("serviceWorker" in navigator) {
-      window.addEventListener("load", function () {
+      window.addEventListener("load", async function () {
         navigator.serviceWorker.register("./service-worker.js").then(
           function (registration) {
             console.log("ServiceWorker registration successful");
